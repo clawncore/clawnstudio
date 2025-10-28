@@ -1,0 +1,95 @@
+Prompt for Replit AI
+
+Build a small, modern website project for “Clawn Media Studio”, a creative digital gift and motion design service.
+
+The website should be simple but visually clean, using HTML, CSS, and JavaScript (ES modules). The animation engine is anime.js (imported via CDN).
+
+Requirements:
+
+Pages (3 total):
+
+index.html → Landing page showing the animated shapes (circle, triangle, square) moving using anime.js.
+
+auth.html → A simple “memorable word” login page. No backend. If the user enters "clawn" (case-insensitive), redirect to timeline.html. Otherwise, show an error message.
+
+timeline.html → Scrollable list of events or templates, with fade-in effects as the user scrolls.
+
+Landing Page (index.html):
+
+Include a heading: “Clawn Media Studio”.
+
+A short tagline: “Creative motion. Minimal flow.”
+
+Below that, display three shapes: a triangle, a square, and a circle — centered and evenly spaced.
+
+Add a button labeled “Get Started” that links to the login page.
+
+Animate the shapes using anime.js with the following rules:
+
+.circle: moves 15rem left-right, loops infinitely.
+
+.triangle: moves 15rem, rotates 1 turn, alternates, loops infinitely.
+
+.square: moves 15rem, alternates, loops infinitely.
+
+Use soft transitions and easing (easeInOutQuad or similar).
+
+Auth Page (auth.html):
+
+A minimal centered login box.
+
+Input: type=password with placeholder “Your word”.
+
+Button: “Login”.
+
+When clicked, if the word matches "clawn", save a flag in localStorage and redirect to timeline.html.
+
+If wrong, display: “Wrong word. Try again.”
+
+Timeline Page (timeline.html):
+
+Title: “Event Timeline”.
+
+Five vertical “event” cards with emoji icons and short text (e.g., 🎬 Project Kickoff, 🎨 Visual Build, 🚀 Launch Day).
+
+Each card fades in smoothly as it scrolls into view.
+
+Background stays dark and minimalist.
+
+Global Style (style.css):
+
+Font: ‘Poppins’, sans-serif.
+
+Dark background (#1b1b1b) with light text.
+
+Use accent gradients like orange (#f46b45) or blue (#0077b6) for highlights.
+
+Buttons rounded and hover with soft color shift.
+
+Timeline cards have left borders in accent color and subtle glow.
+
+Files to Include:
+
+index.html
+
+auth.html
+
+timeline.html
+
+style.css
+
+app.js (anime.js landing animations)
+
+auth.js (login logic)
+
+timeline.js (scroll fade-in)
+
+Extra polish (optional but nice):
+
+Add a small top banner with the Clawn Media Studio name and subtle fade-in animation.
+
+Make the layout responsive and centered.
+
+All animations and logic should work without any build tools (just vanilla JS and anime.js).
+
+Output the full working project folder with all code.

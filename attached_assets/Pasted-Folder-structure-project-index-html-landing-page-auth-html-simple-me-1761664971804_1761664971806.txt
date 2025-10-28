@@ -1,0 +1,237 @@
+Folder structure
+project/
+│
+├── index.html         ← landing page
+├── auth.html          ← simple memorable word login
+├── timeline.html      ← scrollable event timeline
+├── style.css          ← shared styles
+├── app.js             ← landing page animation
+├── auth.js            ← login logic
+└── timeline.js        ← timeline scroll effects
+
+index.html (Landing Page)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clawn Media Studio</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <div class="landing">
+    <h1>Clawn Media Studio</h1>
+    <p>Creative motion. Minimal flow.</p>
+    <div class="large row">
+      <div class="medium pyramid">
+        <div class="triangle"></div>
+        <div class="square"></div>
+        <div class="circle"></div>
+      </div>
+    </div>
+    <button onclick="window.location.href='auth.html'">Get Started</button>
+  </div>
+</body>
+</html>
+
+auth.html (Memorable Word Login)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Clawn Media</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="auth.js" defer></script>
+</head>
+<body>
+  <div class="auth-container">
+    <h2>Enter your memorable word</h2>
+    <input type="password" id="memWord" placeholder="Your word" />
+    <button id="loginBtn">Login</button>
+    <p id="msg"></p>
+  </div>
+</body>
+</html>
+
+timeline.html (Scrollable Events)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timeline - Clawn Media</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="timeline.js" defer></script>
+</head>
+<body>
+  <div class="timeline-container">
+    <h1>Event Timeline</h1>
+    <div class="timeline">
+      <div class="event">🎬 Project Kickoff</div>
+      <div class="event">💡 Concept Design</div>
+      <div class="event">🎨 Visual Build</div>
+      <div class="event">🎶 Motion Integration</div>
+      <div class="event">🚀 Launch Day</div>
+    </div>
+  </div>
+</body>
+</html>
+
+style.css
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #1b1b1b;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Landing page */
+.landing {
+  text-align: center;
+}
+.landing button {
+  margin-top: 2rem;
+  padding: 0.8rem 2rem;
+  background: #f46b45;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.landing button:hover {
+  background: #eea849;
+}
+
+/* Shapes */
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+  gap: 1.5rem;
+}
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 86px solid #89cff0;
+}
+.square {
+  width: 100px;
+  height: 100px;
+  background: #f4a261;
+  border-radius: 10px;
+}
+.circle {
+  width: 100px;
+  height: 100px;
+  background: #c77dff;
+  border-radius: 50%;
+}
+
+/* Auth */
+.auth-container {
+  text-align: center;
+}
+.auth-container input {
+  margin: 1rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+}
+.auth-container button {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background: #0077b6;
+  color: white;
+  cursor: pointer;
+}
+
+/* Timeline */
+.timeline-container {
+  width: 100%;
+  padding: 2rem;
+  overflow-y: auto;
+  height: 100vh;
+}
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.event {
+  background: #222;
+  padding: 1rem;
+  border-left: 4px solid #f46b45;
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+app.js (Landing Animation)
+import { animate } from 'animejs';
+
+animate('.circle', {
+  translateX: '15rem',
+  duration: 1000,
+  easing: 'easeInOutQuad',
+  direction: 'alternate',
+  loop: true
+});
+
+animate('.triangle', {
+  translateX: '15rem',
+  rotate: '1turn',
+  duration: 800,
+  delay: 300,
+  easing: 'easeInOutSine',
+  loop: true,
+  direction: 'alternate'
+});
+
+animate('.square', {
+  translateX: '15rem',
+  duration: 900,
+  delay: 600,
+  easing: 'easeInOutQuad',
+  loop: true,
+  direction: 'alternate'
+});
+
+auth.js
+document.getElementById('loginBtn').addEventListener('click', () => {
+  const word = document.getElementById('memWord').value.trim().toLowerCase();
+  const msg = document.getElementById('msg');
+
+  if (word === 'clawn') {
+    localStorage.setItem('auth', 'true');
+    window.location.href = 'timeline.html';
+  } else {
+    msg.textContent = 'Wrong word. Try again.';
+  }
+});
+
+timeline.js
+// simple fade-in on scroll
+const events = document.querySelectorAll('.event');
+
+window.addEventListener('scroll', () => {
+  events.forEach(ev => {
+    const rect = ev.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 50) {
+      ev.style.transition = 'opacity 0.8s ease-out';
+      ev.style.opacity = 1;
+    }
+  });
+});
+
+events.forEach(ev => ev.style.opacity = 0);
