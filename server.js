@@ -47,4 +47,13 @@ app.get('*', (req, res) => {
   }
 });
 
+// Vercel will use this export
 export default app;
+
+// For local testing, listen on a port if not running in Vercel
+if (process.env.VERCEL !== '1') {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
