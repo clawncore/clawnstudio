@@ -3,7 +3,7 @@ node_modules/
 client/node_modules/
 
 # Build outputs
-dist/
+# dist/  # Commented out to include dist folder in Vercel deployment
 !.dist/
 
 # Logs

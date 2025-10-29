@@ -42,4 +42,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/public/index.html'));
 });
 
+// Vercel expects a default export for serverless functions
 module.exports = app;
+module.exports.default = app;
