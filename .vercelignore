@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+client/node_modules/
+
+# Build outputs
+dist/
+!.dist/
+
+# Logs
+logs
+*.log
+
+# Environment files
+.env*
+!.env.example
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Local development files
+.local/
+.git/
+.gitignore
+
+# Testing
+coverage/
+*.test.*
+*.spec.*
+
+# Temporary files
+tmp/
+temp/
+
+# Vercel specific
+.vercel/
