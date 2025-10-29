@@ -12,95 +12,41 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// More robust path resolution for Vercel environment
-const resolveDistPath = () => {
-    // Try multiple possible paths for the dist/public directory
-    const possiblePaths = [
-        path.join(__dirname, 'dist/public'),           // Standard path
-        path.join(__dirname, '../dist/public'),        // If server.js is in a subdirectory
-        path.join(__dirname, '../../dist/public'),     // If server.js is in a deeper subdirectory
-        path.join(process.cwd(), 'dist/public'),       // Current working directory
-        path.join(process.cwd(), '../dist/public'),    // One level up from cwd
-    ];
+// Define the path to static files
+const staticPath = path.join(__dirname, 'dist/public');
 
-    for (const distPath of possiblePaths) {
-        console.log(`Checking path: ${distPath}`);
-        if (fs.existsSync(distPath)) {
-            console.log(`Found dist/public at: ${distPath}`);
-            return distPath;
-        }
-    }
+// Log for debugging
+console.log('Server starting...');
+console.log('__dirname:', __dirname);
+console.log('staticPath:', staticPath);
+console.log('staticPath exists:', fs.existsSync(staticPath));
 
-    console.error('ERROR: Could not find dist/public directory in any expected location');
-    console.log('Current __dirname:', __dirname);
-    console.log('Current process.cwd():', process.cwd());
+// Serve static files
+app.use(express.static(staticPath));
 
-    // List contents of current directory and parent directories
-    try {
-        console.log('Contents of __dirname:', fs.readdirSync(__dirname));
-    } catch (err) {
-        console.error('Error reading __dirname:', err.message);
-    }
+// API routes
+app.get('/api/*', (req, res) => {
+  res.status(404).send('API routes are not available in this deployment');
+});
 
-    try {
-        console.log('Contents of parent directory:', fs.readdirSync(path.join(__dirname, '..')));
-    } catch (err) {
-        console.error('Error reading parent directory:', err.message);
-    }
+// Serve favicon
+app.get('/favicon.ico', (req, res) => {
+  const faviconPath = path.join(staticPath, 'favicon.ico');
+  if (fs.existsSync(faviconPath)) {
+    res.sendFile(faviconPath);
+  } else {
+    res.status(404).send('Favicon not found');
+  }
+});
 
-    return null;
-};
+// Catch-all handler for SPA
+app.get('*', (req, res) => {
+  const indexPath = path.join(staticPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send('index.html not found');
+  }
+});
 
-// Resolve the dist path
-const distPath = resolveDistPath();
-
-if (distPath) {
-    // Serve static files from the React app build directory
-    app.use(express.static(distPath));
-
-    // API routes would go here if needed
-    // For now, we'll just serve the React app for all routes
-    app.get('/api/*', (req, res) => {
-        res.status(404).send('API routes are not available in this deployment');
-    });
-
-    // Serve static assets
-    app.get('/assets/*', (req, res) => {
-        const filePath = path.join(distPath, req.path);
-        if (fs.existsSync(filePath)) {
-            res.sendFile(filePath);
-        } else {
-            res.status(404).send('Not found');
-        }
-    });
-
-    // Serve favicon
-    app.get('/favicon.ico', (req, res) => {
-        const filePath = path.join(distPath, 'favicon.ico');
-        if (fs.existsSync(filePath)) {
-            res.sendFile(filePath);
-        } else {
-            res.status(404).send('Not found');
-        }
-    });
-
-    // The "catchall" handler: for any request that doesn't
-    // match one above, send back React's index.html file.
-    app.get('*', (req, res) => {
-        const indexPath = path.join(distPath, 'index.html');
-        if (fs.existsSync(indexPath)) {
-            res.sendFile(indexPath);
-        } else {
-            res.status(404).send('Not found');
-        }
-    });
-} else {
-    // Fallback if dist/public is not found
-    app.get('*', (req, res) => {
-        res.status(500).send('Server configuration error: Could not find static files');
-    });
-}
-
-// Vercel expects a default export for serverless functions
 export default app;
-export { app };
