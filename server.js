@@ -1,6 +1,4 @@
-// This is a simple server file for Vercel deployment
-// The actual server code is in server/index.ts and will be built to dist/
-
+// Simple server for Vercel deployment
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
