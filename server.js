@@ -3,6 +3,7 @@
 
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 
@@ -13,6 +14,26 @@ app.use(express.static(path.join(__dirname, 'dist/public')));
 // For now, we'll just serve the React app for all routes
 app.get('/api/*', (req, res) => {
     res.status(404).send('API routes are not available in this deployment');
+});
+
+// Serve static assets
+app.get('/assets/*', (req, res) => {
+    const filePath = path.join(__dirname, 'dist/public', req.path);
+    if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+    } else {
+        res.status(404).send('Not found');
+    }
+});
+
+// Serve favicon
+app.get('/favicon.ico', (req, res) => {
+    const filePath = path.join(__dirname, 'dist/public', 'favicon.ico');
+    if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+    } else {
+        res.status(404).send('Not found');
+    }
 });
 
 // The "catchall" handler: for any request that doesn't

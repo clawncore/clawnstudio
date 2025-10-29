@@ -3,33 +3,7 @@
     "builds": [
         {
             "src": "server.js",
-            "use": "@vercel/node",
-            "config": {
-                "includeFiles": [
-                    "dist/**",
-                    "client/**",
-                    "server/**",
-                    "shared/**"
-                ]
-            }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/api/(.*)",
-            "dest": "/server.js"
-        },
-        {
-            "src": "/assets/(.*)",
-            "dest": "/dist/public/assets/$1"
-        },
-        {
-            "src": "/favicon.ico",
-            "dest": "/dist/public/favicon.ico"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/dist/public/index.html"
+            "use": "@vercel/node"
         }
     ]
 }
